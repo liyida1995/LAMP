@@ -7,7 +7,7 @@ LD = -lm
 
 .SUFFIXES : .o .c
 
-Target:=lamporicompress lampdeltacompress
+Target:=lampcompress
 
 all: $(Target)
 
