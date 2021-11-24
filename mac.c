@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 	int * recipe_en_levelRe=(int*)malloc(datasize*sizeof(int));
 	int * recipe_en_baseline=(int*)malloc(datasize*sizeof(int));
   
-  mapping_by_box(data,cnt,boxes,box_cnt);
+  	mapping_by_box(data,cnt,boxes,box_cnt);
 
 	for(i=0;i<Level;i++)	
 		free(data[i]);
@@ -117,7 +117,7 @@ int main(int argc, char **argv)
 			Errbound=100;
     
     
-		sz_params sz;
+    sz_params sz;
     memset(&sz, 0, sizeof(sz_params));
     sz.sol_ID = SZ;
     sz.sampleDistance = 100;
@@ -134,10 +134,10 @@ int main(int argc, char **argv)
     confparams_cpr->absErrBound =Errbound;
 
 
-		int r4 = 0, r3 = 0, r2 = 0, r5 = 0;
-		unsigned char *compressed;
-		int c_size_zfp;
-		int c_size_sz;
+    int r4 = 0, r3 = 0, r2 = 0, r5 = 0;
+    unsigned char *compressed;
+    int c_size_zfp;
+    int c_size_sz;
 
 	
 		double total_ori_zfp;
