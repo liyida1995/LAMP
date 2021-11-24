@@ -16,10 +16,10 @@ double RMSE(double *data_level, double *data_delta, int datasize){
 	double sum = 0;
 	int i;
 	double rmse;
-	for(i = 0; i < size; i++){
+	for(i = 0; i < datasize; i++){
 		sum += pow(data_level[i] - data_delta[i], 2);
 	}
-	rmse = sqrt(sum/(double)dsize);
+	rmse = sqrt(sum/(double)size);
 	return rmse;
 }
 
@@ -161,11 +161,11 @@ int main(int argc, char **argv)
 		
 		FILE *fp = fopen("li", "r");
 		double *decompressed = (double*)malloc(datasize*sizeof(double));
-		read_cnt = fread(decompressed, sizeof(double), datasize, fpzori);
+		read_cnt = fread(decompressed, sizeof(double), datasize, fp);
 		d_size_zfp = zfp1_decompress(decompressed, datasize, Errbound, "li");
 		fclose(fp);
 		double rmse_zfpori;
-		rmse_zfpori = RMSE(data_level, decompressdata, datasize);
+		rmse_zfpori = RMSE(data_level, decompressed, datasize);
 		printf("zfp decompress baseline RMSE :  %lf\n", rmse_zfpori);
     free(decompressed);
     free(compressed);
@@ -208,7 +208,7 @@ int main(int argc, char **argv)
 
 		
 		
-		FILE *fp = fopen("li", "r");
+		fp = fopen("li", "r");
 		read_cnt = fread(decompressed, sizeof(double), datasize, fp);
 		d_size_zfp = zfp1_decompress(decompressed, datasize, Errbound, "li");
 		fclose(fp);
@@ -259,7 +259,8 @@ int main(int argc, char **argv)
 			level_offset4+=cnt[i];
 		}
 		
-
+		double rmse_sz;
+		double rermse_sz;
 		rmse_sz = RMSE(data_level, decompressed, datasize);
 		rermse_sz = rmse_sz/Errbound;
 		printf("SZ decompress lamp RMSE:  %lf\n", rermse_sz);
