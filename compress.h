@@ -2,7 +2,9 @@
 #include "sz.h"
 
 
-int zfp1_compress (double * array, int nx, double tolerance)
+int
+zfp1_compress (double * array, int nx, double tolerance, char filename[50]
+	      )
 {
 	zfp_type type;     /* array scalar type */
 	zfp_field* field;  /* array meta data */
@@ -40,6 +42,12 @@ int zfp1_compress (double * array, int nx, double tolerance)
 	if (!zfpsize) {
 		fprintf(stderr, "compression failed\n");
 	}
+	else{
+		FILE *fp=fopen(filename,"w");
+
+		fwrite(buffer, 1, zfpsize, fp);
+		fclose(fp);
+	}
 	assert (zfpsize);
 	zfp_field_free (field);
 	zfp_stream_close (zfp);
@@ -49,9 +57,6 @@ int zfp1_compress (double * array, int nx, double tolerance)
 
 	return zfpsize;
 }
-
-
-
 
 
 int zfp1_decompress (double * array, int nx, double tolerance,char filename[50])
@@ -99,6 +104,7 @@ int zfp1_decompress (double * array, int nx, double tolerance,char filename[50])
 	free(buffer);
 	return 0;
 }
+
 
 int zfp2_compress (double * array, int nx, int ny, double tolerance )
 {
