@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 	double totals_ori_zfp = 0.0;
 	double totals_ori_sz = 0.0;
 	double total_datasize = 0.0;
-	for(int col=0;col<6;col++){
+	for(int col=0;col<Level;col++){
 	
 		sprintf(filename,"datapoint_%d",list[col]);
 		fp=fopen(filename,"r");
