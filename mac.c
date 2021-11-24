@@ -213,9 +213,9 @@ int main(int argc, char **argv)
         double lampmac;
         for(m_i = 0; m_i < datasize-1; m_i++){
                pan2 = data_delta[m_i + 1] - data_delta[m_i];
-		if(fabs(pan2) > 1000.0)
+		if(abs(pan2) > 1000.0)
                         pan2 = 0.0;	       
-	       	m_sum2 = m_sum2 + fabs(pan2);
+	       	m_sum2 = m_sum2 + abs(pan2);
         }
         lampmac = m_sum2 / (double)datasize;
         printf("the LAMP mac is : %lf\n", lampmac);
