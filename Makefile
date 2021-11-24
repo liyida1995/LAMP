@@ -19,3 +19,4 @@ $(Target): %:%.o
 
 clean :
         /bin/rm -f *.o $(Target)
+
