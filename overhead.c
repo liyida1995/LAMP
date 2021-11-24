@@ -71,11 +71,10 @@ int main(int argc, char **argv)
 
 
 
-
 	clock_t start_t, end_t;
-  start_t = clock();
-  mapping_by_box(data,cnt,boxes,box_cnt);
-  end_t = clock();
+  	start_t = clock();
+  	mapping_by_box(data,cnt,boxes,box_cnt);
+  	end_t = clock();
 
 
 	for(i=0;i<Level;i++)	
