@@ -3,6 +3,7 @@
 #include <string.h>
 #include "zfp.h"
 #include "sz.h"
+#include "util.h"
 #include "compress.h"
 
 #define Error_ratio 0.00001
