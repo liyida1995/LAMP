@@ -7,13 +7,13 @@ LD = -lm
 
 .SUFFIXES : .o .c
 
-Target:=lampcompress
+Target:=compress mac rmse overhead
 
 all: $(Target)
 
 
 $(Target): %:%.o
-        $(CC) $(LD) $< -o $@  -L/home/liyida/Compressor/zfp/build/lib/ -lzfp -L/home/liyida/Compressor/SZ/lib   -lSZ  -lzstd -lzlib
+        $(CC) $(LD) $< -o $@  -L/home/liyida/Compressor/zfp/build/lib/ -lzfp -L/home/liyida/Compressor/SZ/lib   -lSZ  -lzstd -lzlib -lm
 %.o : %.c
         $(CC) -c $(*F).c -I/home/liyida/Compressor/zfp/include/  -I/home/liyida/Compressor/SZ/include/
 
