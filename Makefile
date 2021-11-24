@@ -7,7 +7,7 @@ LD = -lm
 
 .SUFFIXES : .o .c
 
-Target:=lampcompress oricompress
+Target:=lampcompress
 
 all: $(Target)
 
