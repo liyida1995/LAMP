@@ -1,2 +1,0 @@
-# LAMP
-Level-associated Mapping
