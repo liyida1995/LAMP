@@ -4,6 +4,7 @@
 #include <time.h>
 #include "zfp.h"
 #include "sz.h"
+#include "util.h"
 #define Error_ratio 0.00001
 
 #define Level 6
