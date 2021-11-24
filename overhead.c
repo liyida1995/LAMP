@@ -238,13 +238,13 @@ int main(int argc, char **argv)
 	total_datasize = total_datasize + (double)datasize * sizeof(double);
 	
 	}
-	printf("ori zfp Runtime is : %lf s\n", totals_ori_zfp);
-  printf("ori sz Runtime is : %lf s\n", totals_ori_sz);
+	printf("baseline zfp Runtime is : %lf s\n", totals_ori_zfp);
+  printf("baseline sz Runtime is : %lf s\n", totals_ori_sz);
 	printf("lamp zfp Runtime is : %lf s\n", total_zfp);
 	printf("lamp sz Runtime is : %lf s\n", total_sz);
   printf("==============================================\n");
-	printf("ori zfp throughput is : %lf\n", total_datasize/totals_ori_zfp/1024/1024);
-	printf("ori sz throughput is : %lf\n", total_datasize/totals_ori_sz/1024/1024);
+	printf("baseline zfp throughput is : %lf\n", total_datasize/totals_ori_zfp/1024/1024);
+	printf("baseline sz throughput is : %lf\n", total_datasize/totals_ori_sz/1024/1024);
   printf("lamp zfp throughput is : %lf\n", total_datasize/total_zfp/1024/1024);
 	printf("lamp sz throughput is : %lf\n", total_datasize/total_sz/1024/1024);
 	printf("\n");
