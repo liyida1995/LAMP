@@ -2,8 +2,7 @@
 #include "sz.h"
 
 
-int
-zfp1_compress (double * array, int nx, double tolerance, char filename[50]
+int zfp1_compress (double * array, int nx, double tolerance, char filename[50]
 	      )
 {
 	zfp_type type;     /* array scalar type */
