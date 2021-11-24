@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 
 
 	
-	for(int col=0;col<Level;col++){
+	for(int col=0;col<6;col++){
 	
 		sprintf(filename,"datapoint_%d",list[col]);
 		fp=fopen(filename,"r");
