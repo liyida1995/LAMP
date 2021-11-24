@@ -19,7 +19,7 @@ double RMSE(double *data_level, double *data_delta, int datasize){
 	for(i = 0; i < datasize; i++){
 		sum += pow(data_level[i] - data_delta[i], 2);
 	}
-	rmse = sqrt(sum/(double)size);
+	rmse = sqrt(sum/(double)datasize);
 	return rmse;
 }
 
