@@ -167,7 +167,7 @@ int main(int argc, char **argv)
 		double rmse_zfpori;
 		rmse_zfpori = RMSE(data_level, decompressed, dataSize);
 		printf("zfp decompress baseline RMSE :  %lf\n", rmse_zfpori);
-    		free(decompressed);
+    		//free(decompressed);
 		
 
 		compressed = SZ_compress(SZ_DOUBLE, data_level, &outSize, r5, r4, r3, r2 ,dataSize);
@@ -189,8 +189,8 @@ int main(int argc, char **argv)
 		rmse_szori = RMSE(data_level, decompressed, dataSize);
 		printf("sz decompress baseline RMSE :  %lf\n", rmse_szori);
 
-		free(compressed);
-		free(decompressed);
+		//free(compressed);
+		//free(decompressed);
 		
 
 		int level_offset = dataSize;
@@ -227,7 +227,7 @@ int main(int argc, char **argv)
 		double rmse_zfp;
 		rmse_zfp = RMSE(data_level,decompressed,dataSize);
 		printf("zfp decompress lamp RMSE : %lf\n", rmse_zfp);
-		free(decompressed);
+		//free(decompressed);
 
 
 		compressed = SZ_compress(SZ_DOUBLE, data_delta, &outSize, r5, r4, r3, r2 ,dataSize);
