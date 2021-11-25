@@ -58,14 +58,14 @@ int main(int argc, char **argv)
 
 
 
-	int datasize=0;
+	int dataSize=0;
 	for(i=0;i<Level;i++)
-		datasize=datasize+cnt[i];
-	double *data_delta=(double*)malloc(datasize*sizeof(double));
-	double *data_level=(double*)malloc(datasize*sizeof(double));
-	double *data_baseline=(double*)malloc(datasize*sizeof(double));
-	int *   recipe_en_levelRe=(int*)malloc(datasize*sizeof(int));
-	int *   recipe_en_baseline=(int*)malloc(datasize*sizeof(int));
+		dataSize=dataSize+cnt[i];
+	double *data_delta=(double*)malloc(dataSize*sizeof(double));
+	double *data_level=(double*)malloc(dataSize*sizeof(double));
+	double *data_baseline=(double*)malloc(dataSize*sizeof(double));
+	int *   recipe_en_levelRe=(int*)malloc(dataSize*sizeof(int));
+	int *   recipe_en_baseline=(int*)malloc(dataSize*sizeof(int));
 
   mapping_by_box(data,cnt,boxes,box_cnt);
 
@@ -76,9 +76,6 @@ int main(int argc, char **argv)
 		free(boxes[i]);
 
 
-	double totals_ori_zfp = 0.0;
-	double totals_ori_sz = 0.0;
-	double total_datasize = 0.0;
 	for(int col=0;col<6;col++){
 	
 		sprintf(filename,"datapoint_%d",list[col]);
@@ -146,11 +143,11 @@ int main(int argc, char **argv)
 		int c_size_zfp;
 		int c_size_sz;
 
-		c_size_zfp=zfp1_compress(data_level,datasize,Errbound,"li");
-		printf("zfp baseline compression ratio=%lf\n",(double)datasize*sizeof(double)/c_size_zfp);
+		c_size_zfp=zfp1_compress(data_level,dataSize,Errbound,"li");
+		printf("zfp baseline compression ratio=%lf\n",(double)dataSize*sizeof(double)/c_size_zfp);
     
        
-		compressed = SZ_compress(SZ_DOUBLE, data_level, &outSize, r5, r4, r3, r2 ,datasize);
+		compressed = SZ_compress(SZ_DOUBLE, data_level, &outSize, r5, r4, r3, r2 ,dataSize);
 		fp=fopen("temp","w");
                 if (fp==NULL)
                 {
@@ -164,11 +161,11 @@ int main(int argc, char **argv)
 		free(compressed);
 		c_size_sz=outSize;
 		
-		printf("sz baseline compression ratio=%lf\n",(double)datasize*sizeof(double)/c_size_sz);
+		printf("sz baseline compression ratio=%lf\n",(double)dataSize*sizeof(double)/c_size_sz);
 		
 
 
-		int level_offset = datasize;
+		int level_offset = dataSize;
 		for(i=Level-1;i>0;i--)
 		{
 			level_offset=level_offset-cnt[i];
@@ -181,10 +178,10 @@ int main(int argc, char **argv)
 		}
 
 		double size_zfp;
-		size_zfp=zfp1_compress(data_delta,datasize,Errbound,"li");
-		printf("zfp lamp compression ratio=%lf\n",(double)datasize*sizeof(double)/size_zfp);
+		size_zfp=zfp1_compress(data_delta,dataSize,Errbound,"li");
+		printf("zfp lamp compression ratio=%lf\n",(double)dataSize*sizeof(double)/size_zfp);
 
-		compressed = SZ_compress(SZ_DOUBLE, data_delta, &outSize, r5, r4, r3, r2 ,datasize);
+		compressed = SZ_compress(SZ_DOUBLE, data_delta, &outSize, r5, r4, r3, r2 ,dataSize);
 		fp=fopen("temp","w");
                 if (fp==NULL)
                 {
@@ -198,7 +195,7 @@ int main(int argc, char **argv)
 		free(compressed);
 		c_size_sz=outSize;
 		
-		printf("sz lamp compression ratio=%lf\n",(double)datasize*sizeof(double)/c_size_sz);
+		printf("sz lamp compression ratio=%lf\n",(double)dataSize*sizeof(double)/c_size_sz);
 
 	}
 
