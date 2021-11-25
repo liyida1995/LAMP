@@ -40,15 +40,11 @@ int main(int argc, char **argv)
 	for(i=0;i<Level;i++)
 	{
 		read_cnt=fread(&cnt[i],sizeof(int),1,fp);
-		//	printf("data count= %d\n", cnt[i]);
 		read_cnt=fread(&box_cnt[i],sizeof(int),1,fp);
-		//	printf("box_cnt= %d\n", box_cnt[i]);
 		boxes[i]=(struct box *)malloc(box_cnt[i]*sizeof(struct box));
 		read_cnt=fread(boxes[i],sizeof(struct box),box_cnt[i],fp);
 		data[i]=(struct datapoint*)malloc(cnt[i]*sizeof(struct datapoint));
 		read_cnt=fread(data[i],sizeof(struct datapoint),cnt[i],fp);
-		//for(j=0;j<cnt[i];j++)
-		//	printf("%d %d %lf\n", data[i][j].a,data[i][j].b,data[i][j].val);
 	}
 	fclose(fp);
 
@@ -61,14 +57,14 @@ int main(int argc, char **argv)
 	for(i=0;i<Level;i++)
 		box_mapping[i]=(struct parent_box*)malloc(box_cnt[i]*sizeof(struct parent_box));
 
-	int datasize=0;
+	int dataSize=0;
 	for(i=0;i<Level;i++)
-		datasize=datasize+cnt[i];
-	double *data_delta=(double*)malloc(datasize*sizeof(double));
-	double *data_level=(double*)malloc(datasize*sizeof(double));
-	double *data_baseline=(double*)malloc(datasize*sizeof(double));
-	int *   recipe_en_levelRe=(int*)malloc(datasize*sizeof(int));
-	int *   recipe_en_baseline=(int*)malloc(datasize*sizeof(int));
+		dataSize=dataSize+cnt[i];
+	double *data_delta=(double*)malloc(dataSize*sizeof(double));
+	double *data_level=(double*)malloc(dataSize*sizeof(double));
+	double *data_baseline=(double*)malloc(dataSize*sizeof(double));
+	int *   recipe_en_levelRe=(int*)malloc(dataSize*sizeof(int));
+	int *   recipe_en_baseline=(int*)malloc(dataSize*sizeof(int));
 
 
 
@@ -161,7 +157,7 @@ int main(int argc, char **argv)
 
 		double total_ori_zfp;
 		start_t = clock();
-		c_size_zfp=zfp1_compress(data_level,datasize,Errbound,"li");
+		c_size_zfp=zfp1_compress(data_level,dataSize,Errbound,"li");
 		end_t = clock();
 		total_ori_zfp = (double)(end_t - start_t)/CLOCKS_PER_SEC;
 		totals_ori_zfp = totals_ori_zfp + total_ori_zfp;		
@@ -169,7 +165,7 @@ int main(int argc, char **argv)
 
 		double total_ori_sz;
 		start_t = clock();
-		compressed = SZ_compress(SZ_DOUBLE, data_level, &outSize, r5, r4, r3, r2 ,datasize);
+		compressed = SZ_compress(SZ_DOUBLE, data_level, &outSize, r5, r4, r3, r2 ,dataSize);
 		fp=fopen("temp","w");
                 if (fp==NULL)
                 {
@@ -189,7 +185,7 @@ int main(int argc, char **argv)
 
 		double total_t1;
 		start_t = clock();
-		int level_offset = datasize;
+		int level_offset = dataSize;
 		for(i=Level-1;i>0;i--)
 		{
 			level_offset=level_offset-cnt[i];
@@ -206,7 +202,7 @@ int main(int argc, char **argv)
 		double size_zfp;
 		double total_t2;
 		start_t = clock();
-		size_zfp=zfp1_compress(data_delta,datasize,Errbound,"li");
+		size_zfp=zfp1_compress(data_delta,dataSize,Errbound,"li");
 		end_t = clock();
 		total_t2 = (double)(end_t - start_t)/CLOCKS_PER_SEC;
 		total_zfp = total_zfp + total_t1 + total_t2;
@@ -214,7 +210,7 @@ int main(int argc, char **argv)
 
 		double total_t3;
 		start_t = clock();
-		compressed = SZ_compress(SZ_DOUBLE, data_delta, &outSize, r5, r4, r3, r2 ,datasize);
+		compressed = SZ_compress(SZ_DOUBLE, data_delta, &outSize, r5, r4, r3, r2 ,dataSize);
 		
 		fp=fopen("temp","w");
                 if (fp==NULL)
@@ -235,7 +231,7 @@ int main(int argc, char **argv)
 	
 
 
-	total_datasize = total_datasize + (double)datasize * sizeof(double);
+	total_datasize = total_datasize + (double)dataSize * sizeof(double);
 	
 	}
 	printf("baseline zfp Runtime is : %lf s\n", totals_ori_zfp);
