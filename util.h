@@ -1,3 +1,4 @@
+#define Level 6
 #define Refine_ratio 2
 
 int * fp_glob;
