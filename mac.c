@@ -56,14 +56,14 @@ int main(int argc, char **argv)
 		box_mapping[i]=(struct parent_box*)malloc(box_cnt[i]*sizeof(struct parent_box));
 
 
-	int datasize=0;
+	int dataSize=0;
 	for(i=0;i<Level;i++)
-		datasize=datasize+cnt[i];
-	double *data_delta=(double*)malloc(datasize*sizeof(double));
-	double *data_level=(double*)malloc(datasize*sizeof(double));
-	double *data_baseline=(double*)malloc(datasize*sizeof(double));
-	int * recipe_en_levelRe=(int*)malloc(datasize*sizeof(int));
-	int * recipe_en_baseline=(int*)malloc(datasize*sizeof(int));
+		dataSize=dataSize+cnt[i];
+	double *data_delta=(double*)malloc(dataSize*sizeof(double));
+	double *data_level=(double*)malloc(dataSize*sizeof(double));
+	double *data_baseline=(double*)malloc(dataSize*sizeof(double));
+	int * recipe_en_levelRe=(int*)malloc(dataSize*sizeof(int));
+	int * recipe_en_baseline=(int*)malloc(dataSize*sizeof(int));
   
   	mapping_by_box(data,cnt,boxes,box_cnt);
 
@@ -143,10 +143,10 @@ int main(int argc, char **argv)
 
 	
 		double total_ori_zfp;
-		c_size_zfp=zfp1_compress(data_level,datasize,Errbound,"li");
+		c_size_zfp=zfp1_compress(data_level,dataSize,Errbound,"li");
 
 
-		compressed = SZ_compress(SZ_DOUBLE, data_level, &outSize, r5, r4, r3, r2 ,datasize);
+		compressed = SZ_compress(SZ_DOUBLE, data_level, &outSize, r5, r4, r3, r2 ,dataSize);
 		fp=fopen("temp","w");
                 if (fp==NULL)
                 {
@@ -162,7 +162,7 @@ int main(int argc, char **argv)
 		
 		
 
-		int level_offset = datasize;
+		int level_offset = dataSize;
 		for(i=Level-1;i>0;i--)
 		{
 
@@ -176,9 +176,9 @@ int main(int argc, char **argv)
 		}
     
 		double size_zfp;
-		size_zfp=zfp1_compress(data_delta,datasize,Errbound,"li");
+		size_zfp=zfp1_compress(data_delta,dataSize,Errbound,"li");
 
-		compressed = SZ_compress(SZ_DOUBLE, data_delta, &outSize, r5, r4, r3, r2 ,datasize);
+		compressed = SZ_compress(SZ_DOUBLE, data_delta, &outSize, r5, r4, r3, r2 ,dataSize);
 		fp=fopen("temp","w");
                 if (fp==NULL)
                 {
@@ -194,31 +194,29 @@ int main(int argc, char **argv)
 
 	//MAC comparation
 	//baseline
-	int m_i;
-	double m_sum1 = 0.0;
-	double pan1;
-	double orimac;
-	for(m_i = 0; m_i < datasize-1; m_i++){
-		pan1 = data_level[m_i + 1] - data_level[m_i];
-		if(abs(pan1) > 1000.0)
-			pan1 = 0.0;
-		m_sum1 = m_sum1 + abs(pan1);
+	double subSum = 0.0;
+	double temp;
+	double mac;
+	for(i = 0; i < dataSize-1; i++){
+		temp = data_level[i + 1] - data_level[i];
+		if(abs(temp) > 1000.0)
+			temp = 0.0;
+		subSum = subSum + abs(temp);
 	}		
-	orimac = m_sum1 / (double)datasize;
-	printf("the baseline mac is : %lf\n", orimac);
+	mac = subSum / (double)dataSize;
+	printf("the baseline mac is : %lf\n", mac);
 	
 	//LAMP
-        double m_sum2 = 0.0;
-	double pan2;
-        double lampmac;
-        for(m_i = 0; m_i < datasize-1; m_i++){
-               pan2 = data_delta[m_i + 1] - data_delta[m_i];
-		if(abs(pan2) > 1000.0)
-                        pan2 = 0.0;	       
-	       	m_sum2 = m_sum2 + abs(pan2);
+        subSum = 0.0;
+	mac = 0.0;
+        for(i = 0; i < dataSize-1; i++){
+               temp = data_delta[i + 1] - data_delta[i];
+		if(abs(temp) > 1000.0)
+                        temp = 0.0;	       
+	       	subSum = subSum + abs(temp);
         }
-        lampmac = m_sum2 / (double)datasize;
-        printf("the LAMP mac is : %lf\n", lampmac);
+        mac = subSum / (double)dataSize;
+        printf("the LAMP mac is : %lf\n", mac);
 	}
 
 	printf("\n");
