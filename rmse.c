@@ -12,14 +12,14 @@
 #define Refine_ratio 2
 
 
-double RMSE(double *data_level, double *data_delta, int datasize){
-	double sum = 0;
+double RMSE(double *data_level, double *data_reconstruct, int dataSize){
+	double sum = 0.0;
 	int i;
 	double rmse;
 	for(i = 0; i < datasize; i++){
-		sum += pow(data_level[i] - data_delta[i], 2);
+		sum += pow(data_level[i] - data_reconstruct[i], 2);
 	}
-	rmse = sqrt(sum/(double)datasize);
+	rmse = sqrt(sum/(double)dataSize);
 	return rmse;
 }
 
@@ -70,14 +70,14 @@ int main(int argc, char **argv)
 		box_mapping[i]=(struct parent_box*)malloc(box_cnt[i]*sizeof(struct parent_box));
 
 
-	int datasize=0;
+	int dataSize=0;
 	for(i=0;i<Level;i++)
-		datasize=datasize+cnt[i];
-	double *data_delta=(double*)malloc(datasize*sizeof(double));
-	double *data_level=(double*)malloc(datasize*sizeof(double));
-	double *data_baseline=(double*)malloc(datasize*sizeof(double));
-	int *   recipe_en_levelRe=(int*)malloc(datasize*sizeof(int));
-	int *   recipe_en_baseline=(int*)malloc(datasize*sizeof(int));
+		dataSize=dataSize+cnt[i];
+	double *data_delta=(double*)malloc(dataSize*sizeof(double));
+	double *data_level=(double*)malloc(dataSize*sizeof(double));
+	double *data_baseline=(double*)malloc(dataSize*sizeof(double));
+	int *   recipe_en_levelRe=(int*)malloc(dataSize*sizeof(int));
+	int *   recipe_en_baseline=(int*)malloc(dataSize*sizeof(int));
 
 
   mapping_by_box(data,cnt,boxes,box_cnt);
@@ -156,21 +156,21 @@ int main(int argc, char **argv)
 		int d_size_zfp;
 
 
-		c_size_zfp=zfp1_compress(data_level,datasize,Errbound,"li");
+		c_size_zfp=zfp1_compress(data_level,dataSize,Errbound,"li");
 
 		
 		fp = fopen("li", "r");
-		double *decompressed = (double*)malloc(datasize*sizeof(double));
-		read_cnt = fread(decompressed, sizeof(double), datasize, fp);
-		d_size_zfp = zfp1_decompress(decompressed, datasize, Errbound, "li");
+		double *decompressed = (double*)malloc(dataSize*sizeof(double));
+		read_cnt = fread(decompressed, sizeof(double), dataSize, fp);
+		d_size_zfp = zfp1_decompress(decompressed, dataSize, Errbound, "li");
 		fclose(fp);
 		double rmse_zfpori;
-		rmse_zfpori = RMSE(data_level, decompressed, datasize);
+		rmse_zfpori = RMSE(data_level, decompressed, dataSize);
 		printf("zfp decompress baseline RMSE :  %lf\n", rmse_zfpori);
     		free(decompressed);
 		
 
-		compressed = SZ_compress(SZ_DOUBLE, data_level, &outSize, r5, r4, r3, r2 ,datasize);
+		compressed = SZ_compress(SZ_DOUBLE, data_level, &outSize, r5, r4, r3, r2 ,dataSize);
 		fp=fopen("temp","w");
                 if (fp==NULL)
                 {
@@ -184,16 +184,16 @@ int main(int argc, char **argv)
     
     
 		c_size_sz=outSize;	
-		decompressed = SZ_decompress(SZ_DOUBLE, compressed, c_size_sz, r5, r4, r3, r2, datasize);
+		decompressed = SZ_decompress(SZ_DOUBLE, compressed, c_size_sz, r5, r4, r3, r2, dataSize);
 		double rmse_szori;
-		rmse_szori = RMSE(data_level, decompressed, datasize);
+		rmse_szori = RMSE(data_level, decompressed, dataSize);
 		printf("sz decompress baseline RMSE :  %lf\n", rmse_szori);
 
 		free(compressed);
 		free(decompressed);
 		
 
-		int level_offset = datasize;
+		int level_offset = dataSize;
 		for(i=Level-1;i>0;i--)
 		{
 			level_offset=level_offset-cnt[i];
@@ -208,8 +208,8 @@ int main(int argc, char **argv)
 		
 		
 		fp = fopen("li", "r");
-		read_cnt = fread(decompressed, sizeof(double), datasize, fp);
-		d_size_zfp = zfp1_decompress(decompressed, datasize, Errbound, "li");
+		read_cnt = fread(decompressed, sizeof(double), dataSize, fp);
+		d_size_zfp = zfp1_decompress(decompressed, dataSize, Errbound, "li");
 		fclose(fp);
 
 		
@@ -225,12 +225,12 @@ int main(int argc, char **argv)
 		
 		
 		double rmse_zfp;
-		rmse_zfp = RMSE(data_level,decompressed,datasize);
+		rmse_zfp = RMSE(data_level,decompressed,dataSize);
 		printf("zfp decompress lamp RMSE : %lf\n", rmse_zfp);
 		free(decompressed);
 
 
-		compressed = SZ_compress(SZ_DOUBLE, data_delta, &outSize, r5, r4, r3, r2 ,datasize);
+		compressed = SZ_compress(SZ_DOUBLE, data_delta, &outSize, r5, r4, r3, r2 ,dataSize);
 		fp=fopen("temp","w");
                 if (fp==NULL)
                 {
@@ -242,7 +242,7 @@ int main(int argc, char **argv)
     fclose(fp);
 
 		c_size_sz=outSize;
-		decompressed = SZ_decompress(SZ_DOUBLE, compressed, c_size_sz, r5, r4, r3, r2, datasize);
+		decompressed = SZ_decompress(SZ_DOUBLE, compressed, c_size_sz, r5, r4, r3, r2, dataSize);
 				
 		level_offset3=cnt[0];
 		level_offset4=0;
@@ -257,7 +257,7 @@ int main(int argc, char **argv)
 		
 		double rmse_sz;
 		double rermse_sz;
-		rmse_sz = RMSE(data_level, decompressed, datasize);
+		rmse_sz = RMSE(data_level, decompressed, dataSize);
 		printf("SZ decompress lamp RMSE:  %lf\n", rmse_sz);
 
 		free(compressed);
