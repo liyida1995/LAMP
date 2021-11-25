@@ -16,7 +16,7 @@ double RMSE(double *data_level, double *data_reconstruct, int dataSize){
 	double sum = 0.0;
 	int i;
 	double rmse;
-	for(i = 0; i < datasize; i++){
+	for(i = 0; i < dataSize; i++){
 		sum += pow(data_level[i] - data_reconstruct[i], 2);
 	}
 	rmse = sqrt(sum/(double)dataSize);
