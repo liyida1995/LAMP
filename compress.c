@@ -67,8 +67,14 @@ int main(int argc, char **argv)
 	int *   recipe_en_levelRe=(int*)malloc(dataSize*sizeof(int));
 	int *   recipe_en_baseline=(int*)malloc(dataSize*sizeof(int));
 
-  mapping_by_box(data,cnt,boxes,box_cnt);
-
+	clock_t start_t, end_t;
+  	start_t = clock();
+	double total_re;
+	//Rebuilding AMR hierarchy
+  	mapping_by_box(data,cnt,boxes,box_cnt);
+  	end_t = clock();
+	total_re = (double)(end_t-start_t) / CLOCKS_PER_SEC;
+	printf("Rebuilding AMR hierarchy runtime is %lf\n", total_re);
 
 	for(i=0;i<Level;i++)	
 		free(data[i]);
