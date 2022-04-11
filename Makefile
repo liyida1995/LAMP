@@ -1,5 +1,5 @@
 GFORTRAN    = gfortran -Wall
-CC          = gcc -O3 -g
+CC          = gcc -O2 -g
 #CC          = gcc -g
 MPI_FORTRAN = mpif90 -Wall
 MPI_CC      = mpicc
@@ -7,7 +7,7 @@ LD = -lm
 
 .SUFFIXES : .o .c
 
-Target:=compress mac rmse overhead
+Target:=compress mac rmse overhead parallel
 
 all: $(Target)
 
