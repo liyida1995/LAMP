@@ -224,7 +224,7 @@ struct box* find_overlap(struct box  b1, struct box  b2)
 }
 
 
-void init_box_mapping(struct box **boxes,int box_cnt[Level])
+void init_box_mapping_baseline(struct box **boxes,int box_cnt[Level])
 {
 	int i,j,k,l;
 	for(i=Level-1;i>0;i--)
@@ -280,14 +280,167 @@ void init_box_mapping(struct box **boxes,int box_cnt[Level])
 
 }
 
+void init_box_mapping_cursor(struct box **boxes,int box_cnt[Level])
+{
+	int i,j,k,l;
+	for(i=Level-1;i>0;i--)
+	{
+		for(j=0;j<box_cnt[i];j++)
+		{
+			int offset=0;
+			int cursor=0;
+			/*Child box is overlaped with only one parent box*/ 
+			for( k=0;k<box_cnt[i-1];k++)
+				if(compare_box(boxes[i][j],boxes[i-1][cursor]))
+				{
+					box_mapping[i][j].num=1;
+					box_mapping[i][j].p_list[0]=cursor;
+					box_mapping[i][j].offset[0]=offset;
 
-void mapping_by_box(struct datapoint **data, int cnt [Level],struct box **boxes,int box_cnt[Level])
+					break;
+
+				}
+				else{
+					offset=offset+(boxes[i-1][cursor].x2-boxes[i-1][cursor].x1+1)*(boxes[i-1][cursor].y2-boxes[i-1][cursor].y1+1);
+					cursor=(cursor+1)%box_cnt[i-1];
+				}
+
+			/*Child box is overlaped with more than one parent box*/ 
+			if(k>=box_cnt[i-1])
+			{
+				offset=0;
+				box_mapping[i][j].num=0;
+				for( l=0;l<box_cnt[i-1];l++){
+
+					if(isoverlap_box(boxes[i][j],boxes[i-1][l]))
+					{
+						box_mapping[i][j].p_list[ box_mapping[i][j].num]=l;
+
+						box_mapping[i][j].offset[ box_mapping[i][j].num]=offset;
+						//printf("%d,%d:%d\n",i,j,l);
+						box_mapping[i][j].num++;
+					}
+
+					offset=offset+(boxes[i-1][l].x2-boxes[i-1][l].x1+1)*(boxes[i-1][l].y2-boxes[i-1][l].y1+1);
+
+
+
+				}
+
+			}
+
+
+
+		}//j
+	}//i
+
+
+}
+
+void init_box_mapping_block(struct box **boxes,int box_cnt[Level])
+{
+	int i,j,k,l;
+	
+	for(i=Level-1;i>0;i--)
+	{  
+		//int rest=box_cnt[i]&(block_sz-1);
+		int rest=box_cnt[i]%block_sz;
+		for(j=0;j<box_cnt[i]-rest;j+=block_sz)
+		{
+			int x[block_sz]={0};
+			int offset=0,flag=0;
+			//Child box is overlaped with only one parent box
+			for( k=0;k<box_cnt[i-1];k++)
+			{ 
+				for(int jj=0;jj<block_sz;jj++)
+				if(compare_box(boxes[i][j+jj],boxes[i-1][k]))
+				{
+					box_mapping[i][j+jj].num=1;
+					box_mapping[i][j+jj].p_list[0]=k;
+					box_mapping[i][j+jj].offset[0]=offset;
+					flag++;
+					break;
+				}
+				if(flag==block_sz)
+				break;
+				offset=offset+(boxes[i-1][k].x2-boxes[i-1][k].x1+1)*(boxes[i-1][k].y2-boxes[i-1][k].y1+1);
+			
+			}
+
+			//Child box is overlaped with more than one parent box
+			if(k>=box_cnt[i-1])
+			{
+				offset=0;
+				for(int jj=0;jj<block_sz;jj++)
+				if(box_mapping[i][j+jj].num==0)
+				
+				for(l=0;l<box_cnt[i-1];l++){
+					for(int jj=0;jj<block_sz;jj++) 
+					if(x[jj]==0&&isoverlap_box(boxes[i][j+jj],boxes[i-1][l]))
+					{
+						box_mapping[i][j+jj].p_list[ box_mapping[i][j+jj].num]=l;
+
+						box_mapping[i][j+jj].offset[ box_mapping[i][j+jj].num]=offset;
+
+						box_mapping[i][j+jj].num++;
+					}
+					offset=offset+(boxes[i-1][l].x2-boxes[i-1][l].x1+1)*(boxes[i-1][l].y2-boxes[i-1][l].y1+1);
+				}
+			}
+		}
+			if(rest==0)
+				rest=block_sz;
+			int x[block_sz]={0},offset=0,flag=0;
+			for( k=0;k<box_cnt[i-1];k++)
+			{
+				for(int jj=0;jj<rest;jj++)
+				if(x[jj]==0&&compare_box(boxes[i][j+jj],boxes[i-1][k]))
+				{
+					box_mapping[i][j+jj].num=1;
+					box_mapping[i][j+jj].p_list[0]=k;
+					box_mapping[i][j+jj].offset[0]=offset;
+					x[jj]=1;
+					flag++;
+					break;
+
+				}
+				if(flag==rest)
+				break;
+				offset=offset+(boxes[i-1][k].x2-boxes[i-1][k].x1+1)*(boxes[i-1][k].y2-boxes[i-1][k].y1+1);
+
+			}
+
+			//Child box is overlaped with more than one parent box
+			if(k>=box_cnt[i-1])
+			{
+				offset=0;
+				for(int jj=0;jj<rest;jj++)
+				if(x[jj]==0)
+				box_mapping[i][j+jj].num=0;
+				for(l=0;l<box_cnt[i-1];l++){
+					for(int jj=0;jj<rest;jj++) 
+					if(x[jj]==0&&isoverlap_box(boxes[i][j+jj],boxes[i-1][l]))
+					{
+						box_mapping[i][j+jj].p_list[ box_mapping[i][j+jj].num]=l;
+
+						box_mapping[i][j+jj].offset[ box_mapping[i][j+jj].num]=offset;
+							//printf("%d,%d:%d\n",i,j,l);
+						box_mapping[i][j+jj].num++;
+					}
+					offset=offset+(boxes[i-1][l].x2-boxes[i-1][l].x1+1)*(boxes[i-1][l].y2-boxes[i-1][l].y1+1);
+				}
+			}
+	}
+
+}
+
+void mapping_by_box_baseline(struct datapoint **data, int cnt [Level],struct box **boxes,int box_cnt[Level])
 {
 	int i,j,k;
 	int offset;
 	int off1;
 
-	init_box_mapping(boxes,box_cnt);
+	init_box_mapping_baseline(boxes,box_cnt);
 
 	for(i=Level-1;i>0;i--)
 	{
@@ -368,24 +521,135 @@ void mapping_by_box(struct datapoint **data, int cnt [Level],struct box **boxes,
 			off1=off1+box_size;
 
 		}//j loop 
-
-
-
-
 	}
-
-
-	/*	for(i=Level-1;i>0;i--)
-		for(j=0;j<cnt[i];j++)
-		{
-		if(data[i][j].a/Refine_ratio!=data[i-1][mapping[i][j]].a||data[i][j].b/Refine_ratio!=data[i-1][mapping[i][j]].b) 
-		printf("Error! %d,%d: %d, %d\n",data[i][j].a,data[i-1][mapping[i][j]].a,data[i][j].b,data[i-1][mapping[i][j]].b);
-		}
-		*/
 }
 
 
+void mapping_by_box(struct datapoint **data, int cnt [Level],struct box **boxes,int box_cnt[Level])
+{
+	int i,j,k;
+	int offset;
+	int off1;
+	
+	//init_box_mapping_block(boxes,box_cnt);
+        init_box_mapping_cursor(boxes,box_cnt);
+		
+		
+	for(i=Level-1;i>0;i--)
+	{
+		off1=0;
+		for(j=0;j<box_cnt[i];j++)
+		{
 
+			int width=boxes[i][j].x2-boxes[i][j].x1+1;
+			int height=boxes[i][j].y2-boxes[i][j].y1+1;
+			int box_size=width*height; 
+
+
+			if(box_mapping[i][j].num==1) 
+			{
+
+				offset=box_mapping[i][j].offset[0];
+				int p_index=box_mapping[i][j].p_list[0];
+				int width_f=boxes[i-1][p_index].x2-boxes[i-1][p_index].x1+1;
+
+				for(int i1=0;i1<height;i1+=2)
+				{
+				
+					int off_y[2];
+                                        int q1 = boxes[i][j].y1;
+                                        int q2 = boxes[i-1][p_index].y1;
+					off_y[0]=(q1+i1)/Refine_ratio-q2;
+					off_y[1]=(q1+i1+1)/Refine_ratio-q2;
+
+
+					int rest = width&3;
+					for(int j1=0;j1<width-4;j1+=4)
+					{	
+						int arr1[4];
+						int t1 = boxes[i][j].x1;
+						int t2 = boxes[i-1][p_index].x1;
+						arr1[0]=(t1+j1)/Refine_ratio-t2;
+						arr1[1]=(t1+j1+1)/Refine_ratio-t2;
+						arr1[2]=(t1+j1+2)/Refine_ratio-t2;
+						arr1[3]=(t1+j1+3)/Refine_ratio-t2;				
+						__m128i vec[2],vec_os[2];
+						vec[0]=vec[1]=_mm_load_si128((__m128i*)arr1);
+						vec_os[0]=_mm_set1_epi32(offset+off_y[0]*width_f);
+						vec_os[1]=_mm_set1_epi32(offset+off_y[1]*width_f);
+						vec[0]=_mm_add_epi32(vec[0],vec_os[0]);
+						vec[1]=_mm_add_epi32(vec[1],vec_os[1]);
+						_mm_storeu_si128((__m128i*) &mapping[i][off1+i1*width+j1],vec[0]);
+						_mm_storeu_si128((__m128i*) &mapping[i][off1+(i1+1)*width+j1],vec[1]);
+			
+					}
+					if(rest==0)
+						rest=4;
+					for (int j1=width-rest;j1<width;j1++)
+					{
+						int off_x=(boxes[i][j].x1+j1)/Refine_ratio-boxes[i-1][p_index].x1;
+						mapping[i][off1+i1*width+j1]=offset+off_x+off_y[0]*width_f;
+						mapping[i][off1+(i1+1)*width+j1]=offset+off_x+off_y[1]*width_f;
+					}
+				}
+			}
+			
+			else
+			{ 
+
+				int p_num=box_mapping[i][j].num;
+				for(k =0;k<p_num;k++)
+				{
+					int  p_index=box_mapping[i][j].p_list[k];
+					struct box *overlap=find_overlap(boxes[i][j],boxes[i-1][p_index]); 
+					offset=box_mapping[i][j].offset[k];
+					int width_f=boxes[i-1][p_index].x2-boxes[i-1][p_index].x1+1;
+					for(int i1=overlap->y1;i1<=overlap->y2;i1++)
+					{
+						int off_y=i1/Refine_ratio-boxes[i-1][p_index].y1;
+						
+						//int rest=width%4;
+						int rest=width&3;
+						for(int j1=overlap->x1;j1<=overlap->x2-4;j1+=4)
+						{
+							int arr1[4];
+                                                	int t=boxes[i-1][p_index].x1;
+							arr1[0]=(j1)/Refine_ratio-t;
+							arr1[1]=(j1+1)/Refine_ratio-t;
+							arr1[2]=(j1+2)/Refine_ratio-t;
+							arr1[3]=(j1+3)/Refine_ratio-t;				
+							__m128i vec=_mm_load_si128((__m128i*)arr1),vec_os=_mm_set1_epi32(offset+off_y*width_f);
+							vec=_mm_add_epi32(vec,vec_os);
+							_mm_storeu_si128((__m128i*) &mapping[i][off1+(i1-boxes[i][j].y1)*width+j1-boxes[i][j].x1],vec);
+						}
+						if(rest==0)
+							rest=4;
+						for(int j1=overlap->x2-rest;j1<=overlap->x2;j1++)
+						{
+							int off_x=j1/Refine_ratio-boxes[i-1][p_index].x1;
+							mapping[i][off1+(i1-boxes[i][j].y1)*width+j1-boxes[i][j].x1]=offset+off_x+off_y*width_f;
+						}
+					}
+
+
+					free(overlap);
+				}
+
+
+
+
+
+
+
+			}//Child box are overlaped with more than one parent box.
+
+
+
+			off1=off1+box_size;
+
+		}//j loop 
+	}
+}
 
 
 void  get_baseline_encode_recipe(int *encode_recipe, int cnt [Level],struct box **boxes,int box_cnt[Level])
