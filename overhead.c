@@ -67,11 +67,15 @@ int main(int argc, char **argv)
 	int *   recipe_en_baseline=(int*)malloc(dataSize*sizeof(int));
 
 
-
+	
 	clock_t start_t, end_t;
   	start_t = clock();
+	double total_re;
+	//Rebuilding AMR hierarchy
   	mapping_by_box(data,cnt,boxes,box_cnt);
   	end_t = clock();
+	//total_re = (double)(end_t-start_t) / CLOCKS_PER_SEC;
+	//printf("Rebuilding AMR hierarchy runtime is %lf\n", total_re);
 
 
 	for(i=0;i<Level;i++)	
@@ -81,7 +85,7 @@ int main(int argc, char **argv)
 
 
 	double total_zfp = 0.0;
-	total_zfp = (double)(start_t - end_t)/CLOCKS_PER_SEC;
+	total_zfp = (double)(end_t - start_t)/CLOCKS_PER_SEC;
 	double total_sz;
 	total_sz = total_zfp;
 	double totals_ori_zfp = 0.0;
