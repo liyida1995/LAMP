@@ -1,4 +1,4 @@
-# Level Associated Mapping-based Preconditioning (LAMP)
+# Level Associated Mapping-based Preconditioning (LAMP) for AMR data
 
 ## Overview
 The main idea of LAMP is to rebuild AMR hierarchy and precondition the data before compression and aim to further improve the storage efficiency of AMR applications.
