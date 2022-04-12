@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.pyplot import MultipleLocator
 
-data1 = np.loadtxt("sz_ori.txt")
+data1 = np.loadtxt("sz_baseline.txt")
 list1 = np.array(data1)
 data2 = np.loadtxt("sz_lamp.txt")
 list2 = np.array(data2)
