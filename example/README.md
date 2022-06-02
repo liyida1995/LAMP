@@ -6,9 +6,10 @@ We provide an example of AMR data (MISMIP3D) for testing the effectiveness of LA
 
 The test data is stored in LAMP/example/testdata, you can use the executable 'sh test.sh' command to do the compression.
 
-===compressor prototypes===
+===compression prototypes===
 
 int zfp1_compress(double * array, int nx, double tolerance, char filename[50]);
+Return: the compressed bytes for ZFP
 
 char *SZ_compress(int dataType, void *data, ulong *outSize, int r5, int r4, int r3, int r2, int r1);
 
@@ -28,7 +29,7 @@ int r2: size of dimension 2
 
 int r1: size of dimension 1
 
-Return: the compressed bytes
+Return: the compressed bytes for SZ
 
 ## Note
 More detailed instructions on how to build the LAMP can be found in the LAMP/src.
