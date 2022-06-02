@@ -5,9 +5,10 @@ The main idea of LAMP is to rebuild AMR hierarchy and precondition the data befo
 
 ## Instruction for LAMP:
 1. Get the AMR applications, lossy compressors (including SZ and ZFP).
-2. Set the compressors and set the Makefile in LAMP/src/.
-3. Follow the scripts in LAMP/scripts/ for the results of CR_comparation, parallel_LAMP, etc.
-4. We also provide the python scripts to plot the result figures.
+2. Copy the files in AMR/filetool/ to the directory of $BISICLES/code/filetool/, and compile.
+3. Set the compressors and set the Makefile in LAMP/src/.
+4. Follow the scripts in LAMP/scripts/ for the results of CR_comparation, parallel_LAMP, etc.
+5. We also provide the python scripts to plot the result figures.
 
 ## Evaluation Platform
 Our evaluation platform runs Linux Ubuntu 20.04 LTS. We compile source code using gcc version 9.3.0 with the “-O2” compiler option. Specifically, we run our proposed method (LAMP) and AMR applications on a cluster with 7 compute nodes, 1 I/O node, and 15 TB of storage. Each compute node has 32 cores of Intel(R) Xeon(R) Silver 4110 CPU @ 2.10GHz. The I/O node has 6 cores of 11th Gen Intel(R) Core(TM) i5-11400F @ 2.60GHz. The storage performance of LAMP is tested on a SATA, 7200RPM HDD.
