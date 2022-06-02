@@ -1,5 +1,4 @@
 ===Example file===
-
 test_compression.c
 
 You can use "make clean;make" to recompile the example code
@@ -15,20 +14,15 @@ int zfp1_compress(double * array, int nx, double tolerance, char filename[50]);
 
 char *SZ_compress(int dataType, void *data, ulong *outSize, int r5, int r4, int r3, int r2, int r1);
 
-dataType: either SZ_DOUBLE or SZ_FLOAT
+dataType: SZ_DOUBLE
 
-void *data: either double* data or float* data
+void *data: double* data
 
 ulong *outSize: size of output compressed data (in byte)
-
 int r5: size of dimension 5 
-
 int r4: size of dimension 4 
-
 int r3: size of dimension 3 
-
 int r2: size of dimension 2 
-
 int r1: size of dimension 1 
 
 Return: the compressed bytes
