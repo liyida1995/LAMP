@@ -2,7 +2,7 @@
 
 test_compression.c
 
-We provide an example of AMR data (MISMIP3D) for testing the effectiveness of LAMP compression performance. 
+We provide an example of AMR data (MISMIP3D) for illustrating how the data being compressed was generated. 
 
 The test data is stored in LAMP/example/testdata, you can use the executable 'sh test.sh' command to do the compression.
 
