@@ -9,6 +9,7 @@ The test data is stored in LAMP/example/testdata, you can use the executable 'sh
 ===compression prototypes===
 
 int zfp1_compress(double * array, int nx, double tolerance, char filename[50]);
+
 Return: the compressed bytes for ZFP
 
 char *SZ_compress(int dataType, void *data, ulong *outSize, int r5, int r4, int r3, int r2, int r1);
