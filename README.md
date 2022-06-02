@@ -9,6 +9,9 @@ Our evaluation platform runs Linux Ubuntu 20.04 LTS. We compile source code usin
 ## AMR Applications
 We evaluate the effectiveness of LAMP with three real AMR applications in Chombo. These applications can be downloaded from the address: http://davis.lbl.gov/Manuals/BISICLES-DOCS/index.html.
 
+## Extract Data and Boxes from AMR Applications
+Copy the files in LAMP/filetool/ to the directory of $BISICLES/code/filetool/, and compile.
+
 ## Data Compression
 We utilize two lossy compressors, including ZFP (0.5.5) and SZ (2.1.12) to evaluate how much LAMP can improve the compression ratio. In particular, we use SZ with the default mode and absolute error bound. For ZFP, we use its absolute error bound. These compressors can be downloaded from the following addresses:
 (1)	ZFP: https://github.com/LLNL/zfp.
