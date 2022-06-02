@@ -14,5 +14,10 @@ We utilize two lossy compressors, including ZFP (0.5.5) and SZ (2.1.12) to evalu
 (1)	ZFP: https://github.com/LLNL/zfp.
 (2)	SZ: https://github.com/szcompressor/SZ.
 
+## Testing Examples
+Examples can be found in the LAMP/example.
+You can use the executable 'sh test.sh' command to do the compression. Please see the user guide for details.
+
+
 ## Overall Results
 The baseline compression stores AMR data level by level. In contrast, LAMP preconditions data and makes data smoother than the baseline. The experimental results show that LAMP yields higher compression ratios for both ZFP and SZ, compared to the baseline. Besides, the runtime overhead of LAMP is negligible compared to the baseline.
