@@ -1,7 +1,7 @@
 ===Example file===
 test_compression.c
 
-You can use "make clean;make" to recompile the example code
+You can use "make clean;make" to recompile the example code.
 
 We provide an example of AMR data (MISMIP3D) for testing the effectiveness of LAMP compression performance. 
 
@@ -30,3 +30,6 @@ int r2: size of dimension 2
 int r1: size of dimension 1
 
 Return: the compressed bytes
+
+## Note
+More detailed instructions on how to build the LAMP can be found in the LAMP/src.
