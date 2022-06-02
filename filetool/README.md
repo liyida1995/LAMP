@@ -6,4 +6,4 @@ BISICLES includes some tools used to perform miscellaneous actions on BISICLES/C
 ## Steps
 Firstly, you need to copy the files in AMR/filetool/ to the directory of $BISICLES/code/filetool/, and compile.
 
-After that, you can extract data points and boxes, which are stored in some binary files of the form "datapoint_X".
+After that, you can use filetool to extract data points and boxes, which are stored in some binary files of the form "datapoint_X".
