@@ -30,7 +30,7 @@ We utilize two lossy compressors, including ZFP (0.5.5) and SZ (2.1.12) to evalu
 ## Testing Examples
 Examples can be found in the LAMP/example.
 
-You can use the executable 'sh test.sh' command to do the compression. Please see the user guide for details.
+You can use the executable 'sh test.sh' command to do the compression. Please see the README in LAMP/example for details.
 
 
 ## Overall Results
