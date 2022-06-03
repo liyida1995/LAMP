@@ -35,6 +35,6 @@ Return: the compressed bytes of SZ
 ## Note
 Return: the compressed bytes of compressors
 
-Write: the returned bytes to a file ("li" of ZFP and "temp" of SZ)
+Write: the returned bytes to a file, respectively ("li" of ZFP and "temp" of SZ).
 
 More detailed instructions on how to build the LAMP can be found in the LAMP/src.
