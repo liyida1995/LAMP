@@ -1,5 +1,5 @@
 # Level Associated Mapping-based Preconditioning (LAMP)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6459727.svg)](https://doi.org/10.5281/zenodo.6459727)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6618418.svg)](https://doi.org/10.5281/zenodo.6618418)
 ## Overview
 The main idea of LAMP is to rebuild AMR hierarchy and precondition the data before compression and aim to further improve the storage efficiency of AMR applications.
 
