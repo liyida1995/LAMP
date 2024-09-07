@@ -39,6 +39,7 @@ The baseline compression stores AMR data level by level. In contrast, LAMP preco
 
 ## Publication
 If LAMP benefits your work, please kindly cite this publication:
+
 '''
 @article{LAMP,
   author       = {Yida Li and
