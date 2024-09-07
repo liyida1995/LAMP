@@ -36,3 +36,23 @@ You can use the executable 'sh test.sh' command to do the compression. Please se
 
 ## Overall Results
 The baseline compression stores AMR data level by level. In contrast, LAMP preconditions data and makes data smoother than the baseline. The experimental results show that LAMP yields higher compression ratios for both ZFP and SZ, compared to the baseline. Besides, the runtime overhead of LAMP is negligible compared to the baseline.
+
+## Publication
+If LAMP benefits your work, please kindly cite this publication:
+
+'''
+@article{LAMP,
+  author       = {Yida Li and
+                  Huizhang Luo and
+                  Fenfang Li and
+                  Junqi Wang and
+                  Kenli Li},
+  title        = {{LAMP:} Improving Compression Ratio for {AMR} Applications via Level
+                  Associated Mapping-Based Preconditioning},
+  journal      = {{IEEE} Transactions on Computers},
+  volume       = {72},
+  number       = {12},
+  pages        = {3370--3382},
+  year         = {2023},
+}
+'''
